@@ -1,0 +1,2106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Trees &amp; Algorithms — Material 3 Visual Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   MATERIAL 3 — DARK THEME TOKENS
+   ============================================================ */
+:root{
+  /* primary */
+  --md-primary:#C3C7FF;
+  --md-on-primary:#1B1F5B;
+  --md-primary-container:#33367F;
+  --md-on-primary-container:#E0E0FF;
+  /* secondary */
+  --md-secondary:#C4C6DD;
+  --md-on-secondary:#2D2F42;
+  --md-secondary-container:#434559;
+  --md-on-secondary-container:#E0E1F9;
+  /* tertiary */
+  --md-tertiary:#6FF7E4;
+  --md-on-tertiary:#003731;
+  --md-tertiary-container:#005048;
+  --md-on-tertiary-container:#7AF8E6;
+  /* error */
+  --md-error:#FFB4AB;
+  --md-on-error:#690005;
+  --md-error-container:#93000A;
+  --md-on-error-container:#FFDAD6;
+  /* neutral surfaces */
+  --md-surface:#111318;
+  --md-on-surface:#E2E2E9;
+  --md-surface-variant:#45464F;
+  --md-on-surface-variant:#C6C6D0;
+  --md-outline:#8E9099;
+  --md-outline-variant:#3A3D45;
+  --md-surface-container-lowest:#0C0E13;
+  --md-surface-container-low:#191C20;
+  --md-surface-container:#1D2024;
+  --md-surface-container-high:#282A2F;
+  --md-surface-container-highest:#33353A;
+  /* custom accent for transient highlights */
+  --md-attention:#F5C26B;
+
+  --r-xs:4px; --r-sm:8px; --r-md:12px; --r-lg:16px; --r-xl:28px; --r-full:9999px;
+  --e1:0 1px 2px rgba(0,0,0,.30), 0 1px 3px 1px rgba(0,0,0,.16);
+  --e2:0 1px 2px rgba(0,0,0,.30), 0 2px 6px 2px rgba(0,0,0,.16);
+}
+
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+
+body{
+  font-family:'Roboto',system-ui,-apple-system,'Segoe UI',sans-serif;
+  background-color:var(--md-surface);
+  background-image:radial-gradient(1100px 620px at 50% -18%, rgba(195,199,255,.07), transparent 72%);
+  background-attachment:fixed;
+  color:var(--md-on-surface);
+  min-height:100vh;
+  -webkit-font-smoothing:antialiased;
+}
+
+.app{max-width:1240px;margin:0 auto;padding:0 16px 96px}
+
+/* ============================================================
+   TOP APP BAR
+   ============================================================ */
+.appbar{padding:24px 4px 4px;text-align:center}
+.appbar h1{
+  margin:0;
+  font-size:22px;line-height:28px;font-weight:400;letter-spacing:0;
+  color:var(--md-on-surface);
+}
+.appbar p{
+  margin:4px 0 0;
+  font-size:14px;line-height:20px;letter-spacing:.25px;
+  color:var(--md-on-surface-variant);
+}
+
+/* ============================================================
+   PRIMARY TABS
+   ============================================================ */
+.m3-tabs{
+  display:flex;
+  margin:12px 0 24px;
+  border-bottom:1px solid var(--md-outline-variant);
+  overflow-x:auto;
+  scrollbar-width:none;
+}
+.m3-tabs::-webkit-scrollbar{display:none}
+.m3-tab{
+  position:relative;
+  flex:1 1 0;
+  min-width:118px;
+  height:48px;
+  padding:0 16px;
+  border:none;
+  background:transparent;
+  color:var(--md-on-surface-variant);
+  font-family:inherit;
+  font-size:14px;font-weight:500;letter-spacing:.1px;
+  cursor:pointer;
+  white-space:nowrap;
+  transition:color .2s;
+  -webkit-tap-highlight-color:transparent;
+}
+.m3-tab::before{
+  content:"";position:absolute;inset:0;
+  background:currentColor;opacity:0;transition:opacity .15s;
+}
+.m3-tab:hover::before{opacity:.08}
+.m3-tab:active::before{opacity:.12}
+.m3-tab[aria-selected="true"]{color:var(--md-primary)}
+.m3-tab[aria-selected="true"]::after{
+  content:"";position:absolute;left:0;right:0;bottom:0;height:3px;
+  background:var(--md-primary);
+  border-radius:3px 3px 0 0;
+}
+
+/* ============================================================
+   PANELS + CARDS
+   ============================================================ */
+.panel{display:none}
+.panel.active{display:block;animation:fade .3s cubic-bezier(.2,0,0,1)}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+.m3-card{
+  background:var(--md-surface-container);
+  border-radius:var(--r-md);
+  padding:16px 20px 20px;
+  box-shadow:var(--e1);
+}
+.m3-card + .m3-card{margin-top:16px}
+
+.card-title{
+  margin:0 0 16px;
+  font-size:16px;line-height:24px;font-weight:500;letter-spacing:.15px;
+  color:var(--md-on-surface);
+}
+.card-sub{
+  margin:0 0 16px;
+  font-size:13px;line-height:20px;letter-spacing:.2px;
+  color:var(--md-on-surface-variant);
+}
+.section-label{
+  display:block;
+  margin:0 0 12px;
+  font-size:11px;line-height:16px;font-weight:500;letter-spacing:.5px;
+  text-transform:uppercase;
+  color:var(--md-on-surface-variant);
+}
+
+.split{
+  display:grid;
+  grid-template-columns:1.35fr 1fr;
+  gap:16px;
+  margin-top:16px;
+  align-items:start;
+}
+@media(max-width:900px){.split{grid-template-columns:1fr}}
+
+/* ============================================================
+   TEXT FIELD (M3 FILLED)
+   ============================================================ */
+.m3-field{
+  position:relative;
+  display:block;
+  flex:1 1 300px;
+  min-width:200px;
+}
+.m3-field input{
+  width:100%;
+  height:56px;
+  padding:24px 16px 8px;
+  border:none;
+  border-bottom:1px solid var(--md-on-surface-variant);
+  border-radius:var(--r-xs) var(--r-xs) 0 0;
+  background:var(--md-surface-container-highest);
+  color:var(--md-on-surface);
+  font-family:'Roboto Mono',ui-monospace,Menlo,monospace;
+  font-size:15px;letter-spacing:.2px;
+  outline:none;
+  transition:background .15s, border-color .15s;
+}
+.m3-field input::placeholder{color:transparent}
+.m3-field input:hover{background:#3B3E44}
+.m3-field input:focus{
+  border-bottom:2px solid var(--md-primary);
+  padding-bottom:7px;
+}
+.m3-field .field-label{
+  position:absolute;
+  left:16px;
+  top:16px;
+  font-size:15px;line-height:24px;letter-spacing:.2px;
+  color:var(--md-on-surface-variant);
+  pointer-events:none;
+  transform-origin:left top;
+  transition:top .15s cubic-bezier(.2,0,0,1), transform .15s cubic-bezier(.2,0,0,1), color .15s;
+}
+.m3-field input:focus ~ .field-label,
+.m3-field input:not(:placeholder-shown) ~ .field-label{
+  top:8px;
+  transform:scale(.8);
+}
+.m3-field input:focus ~ .field-label{color:var(--md-primary)}
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+.m3-btn{
+  position:relative;
+  overflow:hidden;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  height:40px;
+  padding:0 24px;
+  border:none;
+  border-radius:var(--r-full);
+  font-family:inherit;
+  font-size:14px;line-height:20px;font-weight:500;letter-spacing:.1px;
+  cursor:pointer;
+  white-space:nowrap;
+  transition:box-shadow .2s ease, background .15s ease;
+  -webkit-tap-highlight-color:transparent;
+}
+.m3-btn::after{
+  content:"";position:absolute;inset:0;
+  background:currentColor;opacity:0;transition:opacity .15s;pointer-events:none;
+}
+.m3-btn:hover::after{opacity:.08}
+.m3-btn:focus-visible::after{opacity:.10}
+.m3-btn:active::after{opacity:.12}
+
+.m3-btn--filled{background:var(--md-primary);color:var(--md-on-primary)}
+.m3-btn--filled:hover{box-shadow:var(--e1)}
+
+.m3-btn--tonal{background:var(--md-secondary-container);color:var(--md-on-secondary-container)}
+
+.m3-btn--outlined{
+  background:transparent;
+  color:var(--md-primary);
+  border:1px solid var(--md-outline);
+  padding:0 22px;
+}
+
+.m3-btn--text{
+  background:transparent;
+  color:var(--md-primary);
+  padding:0 14px;
+}
+
+/* ============================================================
+   CONTROL ROWS
+   ============================================================ */
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.row + .row{margin-top:12px}
+
+.counter{
+  font-family:'Roboto Mono',monospace;
+  font-size:12px;line-height:16px;font-weight:500;letter-spacing:.3px;
+  padding:8px 14px;
+  border-radius:var(--r-full);
+  background:var(--md-surface-container-high);
+  color:var(--md-on-surface-variant);
+  font-variant-numeric:tabular-nums;
+}
+
+.speed{
+  display:flex;align-items:center;gap:12px;
+  margin-left:auto;
+  font-size:12px;line-height:16px;letter-spacing:.4px;
+  color:var(--md-on-surface-variant);
+}
+
+/* ============================================================
+   SLIDER (M3)
+   ============================================================ */
+input[type=range]{
+  -webkit-appearance:none;appearance:none;
+  width:116px;height:32px;
+  background:transparent;
+  cursor:pointer;
+  outline:none;
+}
+input[type=range]::-webkit-slider-runnable-track{
+  height:4px;border-radius:2px;
+  background:linear-gradient(to right,
+    var(--md-primary) 0 var(--p,50%),
+    var(--md-outline-variant) var(--p,50%) 100%);
+}
+input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none;
+  width:20px;height:20px;border-radius:50%;
+  margin-top:-8px;
+  background:var(--md-primary);
+  border:none;
+  transition:box-shadow .15s;
+}
+input[type=range]:hover::-webkit-slider-thumb{box-shadow:0 0 0 8px rgba(195,199,255,.12)}
+input[type=range]::-moz-range-track{
+  height:4px;border-radius:2px;background:var(--md-outline-variant);
+}
+input[type=range]::-moz-range-progress{
+  height:4px;border-radius:2px;background:var(--md-primary);
+}
+input[type=range]::-moz-range-thumb{
+  width:18px;height:18px;border-radius:50%;border:none;background:var(--md-primary);
+}
+
+/* ============================================================
+   VISUALISATION SURFACES
+   ============================================================ */
+.viz{padding:4px 12px 12px}
+.viz svg{display:block;width:100%;height:auto}
+#bstSvg{height:clamp(280px,42vh,430px)}
+#avlSvg{height:clamp(300px,46vh,480px)}
+#rbtSvg{height:clamp(300px,46vh,500px)}
+#primSvg{max-height:520px}
+
+.legend{
+  display:flex;flex-wrap:wrap;gap:6px 18px;
+  justify-content:center;
+  margin-top:14px;
+}
+.legend span{
+  display:inline-flex;align-items:center;gap:7px;
+  font-size:12px;line-height:16px;letter-spacing:.4px;
+  color:var(--md-on-surface-variant);
+}
+.legend i{width:10px;height:10px;border-radius:50%;display:inline-block;flex:none}
+
+/* ============================================================
+   TREE NODE COLOURS
+   ============================================================ */
+.bst-edge,.rbt-edge{stroke:var(--md-outline-variant);stroke-width:2;stroke-linecap:round;transition:stroke .3s}
+
+.bst-node,.rbt-node{transition:opacity .35s ease}
+.bst-node circle,.rbt-node circle{transition:fill .3s, stroke .3s, stroke-width .3s}
+.bst-node.hi circle,.rbt-node.hi circle{
+  stroke:var(--md-attention) !important;
+  stroke-width:4 !important;
+}
+
+.node-label{
+  fill:#F2F3F8;font-size:15px;font-weight:500;text-anchor:middle;pointer-events:none;
+  font-family:'Roboto Mono',ui-monospace,Menlo,monospace;
+}
+.node-badge{
+  fill:var(--md-on-surface-variant);font-size:11px;font-weight:500;text-anchor:middle;
+  pointer-events:none;
+  font-family:'Roboto Mono',ui-monospace,Menlo,monospace;
+}
+
+/* ============================================================
+   STEP LOG
+   ============================================================ */
+.log-list{
+  list-style:none;margin:0;padding:0;
+  max-height:480px;overflow-y:auto;
+  scrollbar-width:thin;scrollbar-color:var(--md-outline-variant) transparent;
+}
+.log-list::-webkit-scrollbar{width:6px}
+.log-list::-webkit-scrollbar-thumb{background:var(--md-outline-variant);border-radius:3px}
+
+.log-item{
+  display:flex;gap:10px;
+  padding:10px 12px;
+  border-radius:var(--r-sm);
+  font-size:13px;line-height:20px;letter-spacing:.2px;
+  color:var(--md-on-surface-variant);
+  cursor:pointer;
+  transition:background .15s, color .15s, opacity .15s;
+  margin-bottom:2px;
+}
+.log-item:hover{background:var(--md-surface-container-high)}
+.log-item.current{
+  background:var(--md-secondary-container);
+  color:var(--md-on-secondary-container);
+}
+.log-item.past{opacity:.45}
+.log-item .num{
+  flex:none;
+  font-family:'Roboto Mono',monospace;
+  font-size:11px;line-height:20px;font-weight:500;
+  min-width:16px;text-align:right;
+  opacity:.65;
+}
+.log-item b{font-weight:700;color:var(--md-primary)}
+.log-item.current b{color:var(--md-tertiary)}
+
+/* ============================================================
+   RULE / INFO TILES
+   ============================================================ */
+.rules{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:12px;
+}
+.rule{
+  background:var(--md-surface-container-high);
+  border-radius:var(--r-sm);
+  padding:12px 14px;
+  font-size:13px;line-height:20px;letter-spacing:.2px;
+  color:var(--md-on-surface-variant);
+}
+.rule b{
+  display:block;
+  margin-bottom:4px;
+  font-size:11px;line-height:16px;font-weight:500;letter-spacing:.5px;
+  text-transform:uppercase;
+  color:var(--md-primary);
+}
+.rule em{font-style:normal;font-weight:500;color:var(--md-tertiary)}
+.rule strong{color:var(--md-on-surface);font-weight:500}
+.rule code{
+  font-family:'Roboto Mono',monospace;font-size:12px;
+  background:var(--md-surface-container-highest);
+  padding:1px 5px;border-radius:var(--r-xs);
+}
+
+/* ============================================================
+   TRAVERSAL OUTPUT
+   ============================================================ */
+.trav-out{
+  display:flex;flex-wrap:wrap;gap:6px;
+  align-items:flex-start;
+  min-height:52px;
+  padding:12px;
+  border-radius:var(--r-sm);
+  background:var(--md-surface-container-lowest);
+}
+.trav-out .placeholder{
+  font-size:13px;line-height:20px;color:var(--md-on-surface-variant);opacity:.7;
+}
+.tok{
+  font-family:'Roboto Mono',monospace;
+  font-size:12px;line-height:16px;font-weight:500;
+  padding:7px 12px;
+  border-radius:var(--r-full);
+  background:var(--md-secondary-container);
+  color:var(--md-on-secondary-container);
+  animation:pop .25s cubic-bezier(.2,0,0,1);
+}
+@keyframes pop{from{transform:scale(.75);opacity:0}to{transform:scale(1);opacity:1}}
+
+/* ============================================================
+   TONAL BANNER
+   ============================================================ */
+.m3-banner{
+  padding:16px;
+  border-radius:var(--r-md);
+  background:var(--md-primary-container);
+  color:var(--md-on-primary-container);
+  font-size:13.5px;line-height:21px;letter-spacing:.2px;
+  min-height:96px;
+}
+.m3-banner b{color:var(--md-tertiary);font-weight:700}
+
+/* ============================================================
+   STATS + CHIPS
+   ============================================================ */
+.stat-row{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+.stat{
+  flex:1 1 110px;
+  padding:12px 14px;
+  border-radius:var(--r-sm);
+  background:var(--md-surface-container-high);
+}
+.stat span{
+  display:block;
+  font-size:11px;line-height:16px;font-weight:500;letter-spacing:.5px;
+  text-transform:uppercase;
+  color:var(--md-on-surface-variant);
+  margin-bottom:2px;
+}
+.stat strong{
+  font-family:'Roboto Mono',monospace;
+  font-size:20px;line-height:28px;font-weight:400;
+  color:var(--md-tertiary);
+  font-variant-numeric:tabular-nums;
+}
+
+.chip-row{margin:14px 0 0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:6px}
+.chip-row li{
+  font-family:'Roboto Mono',monospace;
+  font-size:12px;line-height:16px;font-weight:500;
+  padding:7px 12px;
+  border-radius:var(--r-sm);
+  border:1px solid var(--md-outline-variant);
+  background:transparent;
+  color:var(--md-on-surface-variant);
+}
+
+/* ============================================================
+   PRIM GRAPH
+   ============================================================ */
+.pg-edge{
+  stroke:var(--md-outline-variant);
+  stroke-width:2.5;
+  stroke-linecap:round;
+  transition:stroke .3s, stroke-width .3s, filter .3s;
+}
+.pg-edge.mst{
+  stroke:var(--md-tertiary);
+  stroke-width:4.5;
+  filter:drop-shadow(0 0 6px rgba(111,247,228,.55));
+}
+.pg-edge.chosen{
+  stroke:var(--md-attention);
+  stroke-width:4.5;
+  stroke-dasharray:8 6;
+  animation:dash 1s linear infinite;
+  filter:drop-shadow(0 0 8px rgba(245,194,107,.6));
+}
+@keyframes dash{to{stroke-dashoffset:-28}}
+
+.pg-weight{
+  fill:#A9ABB3;
+  font-family:'Roboto Mono',monospace;
+  font-size:13px;font-weight:700;
+  text-anchor:middle;
+  pointer-events:none;
+  paint-order:stroke;
+  stroke:var(--md-surface);
+  stroke-width:6px;
+  stroke-linejoin:round;
+  transition:fill .3s;
+}
+.pg-weight.mst{fill:var(--md-tertiary)}
+.pg-weight.chosen{fill:var(--md-attention)}
+
+.pg-node circle{
+  fill:var(--md-surface-container-high);
+  stroke:var(--md-outline);
+  stroke-width:2.5;
+  transition:fill .3s, stroke .3s, stroke-width .3s;
+}
+.pg-node text{
+  fill:var(--md-on-surface);
+  font-family:'Roboto Mono',monospace;
+  font-size:16px;font-weight:700;
+  text-anchor:middle;
+  pointer-events:none;
+  transition:fill .3s;
+}
+.pg-node.in-tree circle{
+  fill:#00463F;
+  stroke:var(--md-tertiary);
+  stroke-width:3;
+}
+.pg-node.in-tree text{fill:#C8FFF7}
+.pg-node.new circle{
+  stroke:var(--md-attention);
+  stroke-width:4.5;
+}
+.pg-node:hover circle{stroke:var(--md-primary)}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- ===================== APP BAR ===================== -->
+  <header class="appbar">
+    <h1>Trees &amp; Algorithms</h1>
+    <p>Binary trees · BST · AVL · Red–Black · Prim</p>
+  </header>
+
+  <!-- ===================== TABS ===================== -->
+  <nav class="m3-tabs" role="tablist">
+    <button class="m3-tab" role="tab" aria-selected="true" data-tab="bst">Trees &amp; Traversals</button>
+    <button class="m3-tab" role="tab" aria-selected="false" data-tab="avl">AVL Tree</button>
+    <button class="m3-tab" role="tab" aria-selected="false" data-tab="rbt">Red–Black Tree</button>
+    <button class="m3-tab" role="tab" aria-selected="false" data-tab="prim">Prim's Algorithm</button>
+  </nav>
+
+  <main>
+
+  <!-- ============================================================
+       PANEL 1 — BST + TRAVERSALS
+       ============================================================ -->
+  <section class="panel active" id="panel-bst">
+
+    <div class="m3-card">
+      <h2 class="card-title">Build a binary search tree</h2>
+      <div class="row">
+        <label class="m3-field">
+          <input type="text" id="bstInput" placeholder=" " value="100,20,200,10,30,150,300" />
+          <span class="field-label">Numbers</span>
+        </label>
+        <button class="m3-btn m3-btn--filled" id="bstBuild">Build</button>
+        <button class="m3-btn m3-btn--text" id="bstReset">Reset</button>
+      </div>
+      <div class="row" style="margin-top:16px">
+        <button class="m3-btn m3-btn--outlined" data-trav="inorder">Inorder</button>
+        <button class="m3-btn m3-btn--outlined" data-trav="preorder">Preorder</button>
+        <button class="m3-btn m3-btn--outlined" data-trav="postorder">Postorder</button>
+        <button class="m3-btn m3-btn--outlined" data-trav="level">Level order</button>
+      </div>
+    </div>
+
+    <div class="split">
+      <div class="m3-card viz">
+        <svg id="bstSvg" viewBox="0 0 640 280" preserveAspectRatio="xMidYMid meet">
+          <g id="bstEdges"></g>
+          <g id="bstNodes"></g>
+        </svg>
+        <div class="legend">
+          <span><i style="background:#2A2D33;border:1px solid #8E9099"></i>Not visited</span>
+          <span><i style="background:#33367F;border:1px solid #C3C7FF"></i>Already output</span>
+          <span><i style="background:#F5C26B"></i>Current node</span>
+        </div>
+      </div>
+
+      <div class="m3-card">
+        <span class="section-label">Traversal output</span>
+        <div class="trav-out" id="bstOut"><span class="placeholder">—</span></div>
+        <div class="m3-banner" id="bstMsg" style="margin-top:16px">
+          Build a tree, then pick a traversal to animate it node by node.
+        </div>
+      </div>
+    </div>
+
+    <div class="m3-card">
+      <span class="section-label">Tree vocabulary</span>
+      <div class="rules">
+        <div class="rule"><b>Root</b>The topmost node — no parent. A non-empty tree has exactly one.</div>
+        <div class="rule"><b>Parent / Child</b>An immediate predecessor is the parent; immediate successors are children.</div>
+        <div class="rule"><b>Leaf</b>A node with no children (an <em>external</em> node).</div>
+        <div class="rule"><b>Internal node</b>A node with at least one child.</div>
+        <div class="rule"><b>Siblings</b>Children of the same parent.</div>
+        <div class="rule"><b>Ancestor / Descendant</b>Everything on the path from the root down to a node are its ancestors; everything below it are descendants.</div>
+        <div class="rule"><b>Level</b>Number of edges from the root. The root sits at level 0.</div>
+        <div class="rule"><b>Height</b>Length of the longest path from a node down to a leaf.</div>
+        <div class="rule"><b>Subtree</b>Any node together with all of its descendants.</div>
+        <div class="rule"><b>Degree</b>Number of children — at most 2 in a binary tree.</div>
+      </div>
+    </div>
+
+    <div class="m3-card">
+      <span class="section-label">Types of binary trees</span>
+      <div class="rules">
+        <div class="rule"><b>Balanced</b>For every node the left and right subtree heights differ by at most 1.</div>
+        <div class="rule"><b>Complete</b>All levels full except possibly the last, filled left → right.</div>
+        <div class="rule"><b>Full / Strict</b>Every node has either 0 or 2 children.</div>
+        <div class="rule"><b>Almost complete</b>Children are added left-first; each level fills before the next begins.</div>
+        <div class="rule"><b>Perfect</b>All leaves on the same level, every internal node has 2 children. Perfect ⇒ full + complete + balanced.</div>
+      </div>
+    </div>
+
+    <div class="m3-card">
+      <span class="section-label">Depth-first traversals</span>
+      <div class="rules">
+        <div class="rule"><b>Inorder · L–Root–R</b>Left subtree, then the node, then the right subtree. On a BST this yields the keys in <em>sorted order</em>.</div>
+        <div class="rule"><b>Preorder · Root–L–R</b>The node first, then left, then right. Useful for copying or serialising a tree.</div>
+        <div class="rule"><b>Postorder · L–R–Root</b>Children before the parent. Useful for deleting a tree bottom-up.</div>
+        <div class="rule"><b>Level order · BFS</b>Level 0, then level 1, then level 2 … implemented with a <em>queue</em>.</div>
+      </div>
+    </div>
+
+    <div class="m3-card">
+      <span class="section-label">Binary search tree rules</span>
+      <div class="rules">
+        <div class="rule"><b>Rule 1</b>The left subtree holds only keys <em>smaller</em> than the node's key.</div>
+        <div class="rule"><b>Rule 2</b>The right subtree holds only keys <em>greater</em> than the node's key.</div>
+        <div class="rule"><b>Rule 3</b>Both subtrees are themselves BSTs (recursive property).</div>
+        <div class="rule"><b>Rule 4</b>No duplicate keys — or a fixed duplicate-handling policy.</div>
+        <div class="rule"><b>Cost</b>Search, insert, delete, min, max, floor, ceil all run in <em>O(h)</em>. A degenerate chain makes h = n.</div>
+        <div class="rule"><b>Why self-balance</b>AVL and red–black trees keep h = O(log n), turning every operation into O(log n).</div>
+      </div>
+    </div>
+
+    <div class="m3-card">
+      <span class="section-label">BFS vs DFS</span>
+      <div class="rules">
+        <div class="rule"><b>BFS</b>Uses a <em>queue</em> (FIFO). Builds the tree level by level. Great for shortest paths in unweighted graphs.</div>
+        <div class="rule"><b>DFS</b>Uses a <em>stack</em> or recursion (LIFO). Dives as deep as possible before backtracking.</div>
+        <div class="rule"><b>Memory</b>BFS may hold a whole level; DFS holds only the current path.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       PANEL 2 — AVL
+       ============================================================ -->
+  <section class="panel" id="panel-avl">
+
+    <div class="m3-card">
+      <h2 class="card-title">Insert into an AVL tree and watch it rebalance</h2>
+      <div class="row">
+        <label class="m3-field">
+          <input type="text" id="avlInput" placeholder=" " value="10,20,30,15,25,5,12,35,40" />
+          <span class="field-label">Numbers</span>
+        </label>
+        <button class="m3-btn m3-btn--filled" id="avlBuild">Build</button>
+        <button class="m3-btn m3-btn--text" id="avlReset">Reset</button>
+      </div>
+      <div class="row" style="margin-top:16px">
+        <button class="m3-btn m3-btn--outlined" id="avlPrev">Prev</button>
+        <button class="m3-btn m3-btn--filled" id="avlPlay">Play</button>
+        <button class="m3-btn m3-btn--outlined" id="avlNext">Next</button>
+        <span class="counter" id="avlCounter">0 / 0</span>
+        <label class="speed">Speed
+          <input type="range" id="avlSpeed" min="280" max="2200" step="40" value="1100" />
+        </label>
+      </div>
+    </div>
+
+    <div class="split">
+      <div class="m3-card viz">
+        <svg id="avlSvg" viewBox="0 0 640 300" preserveAspectRatio="xMidYMid meet">
+          <g id="avlEdges"></g>
+          <g id="avlNodes"></g>
+        </svg>
+        <div class="legend">
+          <span><i style="background:#103833;border:1px solid #6FF7E4"></i>Balanced</span>
+          <span><i style="background:#5C1114;border:1px solid #FFB4AB"></i>Out of balance</span>
+          <span><i style="background:#F5C26B"></i>Being examined</span>
+          <span style="opacity:.8">small label = balance factor</span>
+        </div>
+      </div>
+
+      <div class="m3-card">
+        <span class="section-label">Step-by-step explanation</span>
+        <ol class="log-list" id="avlLog"></ol>
+      </div>
+    </div>
+
+    <div class="m3-card">
+      <span class="section-label">What makes a tree an AVL tree?</span>
+      <div class="rules">
+        <div class="rule"><b>Self-balancing BST</b>Named after <em>Adelson-Velsky and Landis</em>. For every node, the left and right subtree heights differ by at most 1.</div>
+        <div class="rule"><b>Balance factor</b>BF(node) = height(left) − height(right). Allowed values <em>−1, 0, +1</em>.</div>
+        <div class="rule"><b>Height bound</b>Held at O(log n). Max nodes at height H is 2<sup>H+1</sup> − 1.</div>
+        <div class="rule"><b>Operations</b>Search, insert and delete are all O(log n). Insertion and deletion also perform rotations.</div>
+      </div>
+    </div>
+
+    <div class="m3-card">
+      <span class="section-label">The four rotation cases</span>
+      <div class="rules">
+        <div class="rule"><b>LL · Left-Left</b>Inserted into the <em>left</em> subtree of the <em>left</em> child → a single <em>right rotation</em>.</div>
+        <div class="rule"><b>RR · Right-Right</b>Inserted into the <em>right</em> subtree of the <em>right</em> child → a single <em>left rotation</em>.</div>
+        <div class="rule"><b>LR · Left-Right</b>Inserted into the <em>right</em> subtree of the <em>left</em> child → left-rotate the child, then right-rotate the node.</div>
+        <div class="rule"><b>RL · Right-Left</b>Inserted into the <em>left</em> subtree of the <em>right</em> child → right-rotate the child, then left-rotate the node.</div>
+      </div>
+    </div>
+
+    <div class="m3-card">
+      <span class="section-label">AVL vs Red–Black</span>
+      <div class="rules">
+        <div class="rule"><b>AVL is stricter</b>Height difference ≤ 1 gives a shorter, bushier tree and faster lookups.</div>
+        <div class="rule"><b>More rotations</b>The strict rule means AVL insertion and deletion perform more rotations.</div>
+        <div class="rule"><b>Red–Black is looser</b>Height ≤ 2·log₂(n+1). Fewer rotations, faster updates — that's why C++ <code>std::map</code> and Java <code>TreeMap</code> use red–black trees.</div>
+        <div class="rule"><b>Pick AVL when</b>Reads dominate writes, in-memory dictionaries, real-time systems needing predictable O(log n).</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       PANEL 3 — RED BLACK
+       ============================================================ -->
+  <section class="panel" id="panel-rbt">
+
+    <div class="m3-card">
+      <h2 class="card-title">Insert into a red–black tree</h2>
+      <div class="row">
+        <label class="m3-field">
+          <input type="text" id="rbtInput" placeholder=" " value="10,20,30,15,25,5,12,35,40,32,50,11" />
+          <span class="field-label">Numbers</span>
+        </label>
+        <button class="m3-btn m3-btn--filled" id="rbtBuild">Build</button>
+        <button class="m3-btn m3-btn--text" id="rbtReset">Reset</button>
+      </div>
+      <div class="row" style="margin-top:16px">
+        <button class="m3-btn m3-btn--outlined" id="rbtPrev">Prev</button>
+        <button class="m3-btn m3-btn--filled" id="rbtPlay">Play</button>
+        <button class="m3-btn m3-btn--outlined" id="rbtNext">Next</button>
+        <span class="counter" id="rbtCounter">0 / 0</span>
+        <label class="speed">Speed
+          <input type="range" id="rbtSpeed" min="280" max="2200" step="40" value="1050" />
+        </label>
+      </div>
+    </div>
+
+    <div class="split">
+      <div class="m3-card viz">
+        <svg id="rbtSvg" viewBox="0 0 660 320" preserveAspectRatio="xMidYMid meet">
+          <defs>
+            <radialGradient id="redGrad" cx="34%" cy="28%" r="75%">
+              <stop offset="0%" stop-color="#FF7B72"/>
+              <stop offset="100%" stop-color="#B3261E"/>
+            </radialGradient>
+            <radialGradient id="blackGrad" cx="34%" cy="28%" r="75%">
+              <stop offset="0%" stop-color="#3C3F46"/>
+              <stop offset="100%" stop-color="#15171B"/>
+            </radialGradient>
+          </defs>
+          <g id="rbtEdges"></g>
+          <g id="rbtNodes"></g>
+        </svg>
+        <div class="legend">
+          <span><i style="background:linear-gradient(135deg,#FF7B72,#B3261E)"></i>Red node</span>
+          <span><i style="background:linear-gradient(135deg,#3C3F46,#15171B);border:1px solid #8E9099"></i>Black node</span>
+          <span><i style="background:#F5C26B"></i>Being examined</span>
+        </div>
+      </div>
+
+      <div class="m3-card">
+        <span class="section-label">Step-by-step explanation</span>
+        <ol class="log-list" id="rbtLog"></ol>
+      </div>
+    </div>
+
+    <div class="m3-card">
+      <span class="section-label">The five red–black rules</span>
+      <div class="rules">
+        <div class="rule"><b>1 · Colour</b>Every node is either <span style="color:#FFB4AB">red</span> or <span style="color:#C6C6D0">black</span>.</div>
+        <div class="rule"><b>2 · Root</b>The root is always black.</div>
+        <div class="rule"><b>3 · Leaves</b>Every null child counts as a black leaf (NIL).</div>
+        <div class="rule"><b>4 · No red-red</b>A red node can never have a red child.</div>
+        <div class="rule"><b>5 · Black height</b>Every path from a node down to a leaf contains the same number of black nodes.</div>
+        <div class="rule"><b>Why bother</b>These rules keep the height ≤ 2·log₂(n+1), so search, insert and delete are all <em>O(log n)</em>.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       PANEL 4 — PRIM
+       ============================================================ -->
+  <section class="panel" id="panel-prim">
+
+    <div class="m3-card">
+      <h2 class="card-title">Grow a minimum spanning tree</h2>
+      <p class="card-sub">Click any vertex on the graph to restart Prim's algorithm from it.</p>
+      <div class="row">
+        <button class="m3-btn m3-btn--outlined" id="primPrev">Prev</button>
+        <button class="m3-btn m3-btn--filled" id="primPlay">Play</button>
+        <button class="m3-btn m3-btn--outlined" id="primNext">Next</button>
+        <button class="m3-btn m3-btn--text" id="primReset">Reset</button>
+        <span class="counter" id="primCounter">0 / 0</span>
+        <label class="speed">Speed
+          <input type="range" id="primSpeed" min="280" max="2200" step="40" value="1250" />
+        </label>
+      </div>
+    </div>
+
+    <div class="split">
+      <div class="m3-card viz">
+        <svg id="primSvg" viewBox="0 0 680 470" preserveAspectRatio="xMidYMid meet">
+          <g id="pEdges"></g>
+          <g id="pNodes"></g>
+        </svg>
+        <div class="legend">
+          <span><i style="background:#6FF7E4"></i>In the MST</span>
+          <span><i style="background:#F5C26B"></i>Chosen this step</span>
+          <span><i style="background:#00463F;border:1px solid #6FF7E4"></i>Vertex in tree</span>
+        </div>
+      </div>
+
+      <div class="m3-card">
+        <span class="section-label">What's happening</span>
+        <div class="m3-banner" id="primMsg">Press <b>Play</b> to start.</div>
+        <div class="stat-row">
+          <div class="stat"><span>Edges in MST</span><strong id="primEdgeCount">0</strong></div>
+          <div class="stat"><span>Total weight</span><strong id="primCost">0</strong></div>
+        </div>
+        <ul class="chip-row" id="mstList"></ul>
+      </div>
+    </div>
+
+    <div class="m3-card">
+      <span class="section-label">How Prim's algorithm works</span>
+      <div class="rules">
+        <div class="rule"><b>Step 1</b>Start from any vertex — it forms a one-vertex tree.</div>
+        <div class="rule"><b>Step 2</b>Look at every edge with exactly <em>one</em> endpoint inside the tree.</div>
+        <div class="rule"><b>Step 3</b>Take the cheapest of those crossing edges and pull its outside vertex in.</div>
+        <div class="rule"><b>Step 4</b>Repeat until every vertex is inside — that is the minimum spanning tree. With a binary heap this runs in <strong>O(E log V)</strong>.</div>
+      </div>
+    </div>
+  </section>
+
+  </main>
+</div>
+
+<script>
+/* =========================================================
+   SHARED
+   ========================================================= */
+const NS = 'http://www.w3.org/2000/svg';
+
+/* --- tabs --- */
+document.querySelectorAll('.m3-tab').forEach(function(t){
+  t.addEventListener('click', function(){
+    document.querySelectorAll('.m3-tab').forEach(function(x){
+      x.classList.remove('active');
+      x.setAttribute('aria-selected','false');
+    });
+    document.querySelectorAll('.panel').forEach(function(x){ x.classList.remove('active'); });
+    t.classList.add('active');
+    t.setAttribute('aria-selected','true');
+    document.getElementById('panel-' + t.dataset.tab).classList.add('active');
+  });
+});
+document.querySelector('.m3-tab').classList.add('active');
+
+/* --- slider fills --- */
+document.querySelectorAll('input[type=range]').forEach(function(r){
+  function upd(){
+    const p = ((r.value - r.min) / (r.max - r.min)) * 100;
+    r.style.setProperty('--p', p + '%');
+  }
+  r.addEventListener('input', upd);
+  upd();
+});
+
+function parseNums(str){
+  return (str || '').split(/[,\s;]+/)
+    .map(function(s){ return s.trim(); })
+    .filter(function(s){ return s !== '' && !isNaN(Number(s)); })
+    .map(Number)
+    .slice(0, 26);
+}
+
+/* =========================================================
+   GENERIC TREE ENGINE (BST + AVL)
+   ========================================================= */
+function createTreeEngine(opts){
+  const svg = opts.svg, edgesG = opts.edgesG, nodesG = opts.nodesG;
+  const S = {
+    nodes: new Map(),
+    edges: new Map(),
+    vb: Object.assign({}, opts.viewBox),
+    vbT: Object.assign({}, opts.viewBox),
+    running: false,
+    radius: opts.radius || 21
+  };
+
+  function tick(){
+    let moving = false;
+    S.nodes.forEach(function(r){
+      const dx = r.tx - r.cx, dy = r.ty - r.cy;
+      if (Math.abs(dx) > 0.4 || Math.abs(dy) > 0.4){
+        r.cx += dx * 0.22; r.cy += dy * 0.22; moving = true;
+      } else { r.cx = r.tx; r.cy = r.ty; }
+      r.el.setAttribute('transform','translate(' + r.cx.toFixed(2) + ' ' + r.cy.toFixed(2) + ')');
+    });
+    S.edges.forEach(function(e){
+      const a = S.nodes.get(e.a), b = S.nodes.get(e.b);
+      if (!a || !b) return;
+      e.el.setAttribute('x1', a.cx.toFixed(2));
+      e.el.setAttribute('y1', a.cy.toFixed(2));
+      e.el.setAttribute('x2', b.cx.toFixed(2));
+      e.el.setAttribute('y2', b.cy.toFixed(2));
+    });
+    let vm = false;
+    ['x','y','w','h'].forEach(function(k){
+      const d = S.vbT[k] - S.vb[k];
+      if (Math.abs(d) > 0.4){ S.vb[k] += d * 0.2; vm = true; }
+      else S.vb[k] = S.vbT[k];
+    });
+    svg.setAttribute('viewBox',
+      S.vb.x.toFixed(1) + ' ' + S.vb.y.toFixed(1) + ' ' + S.vb.w.toFixed(1) + ' ' + S.vb.h.toFixed(1));
+    if (moving || vm) requestAnimationFrame(tick);
+    else S.running = false;
+  }
+  function kick(){ if (!S.running){ S.running = true; requestAnimationFrame(tick); } }
+
+  function layout(root){
+    const items = [];
+    (function walk(n, d, p){
+      if (!n) return;
+      walk(n.left, d + 1, n.id);
+      items.push({ n: n, d: d, p: p });
+      walk(n.right, d + 1, n.id);
+    })(root, 0, null);
+
+    const count = items.length;
+    const maxD = items.reduce(function(m, i){ return Math.max(m, i.d); }, 0);
+    const gapX = 74, gapY = 88;
+    const w = Math.max(640, (count - 1) * gapX + 150);
+    const h = Math.max(280, (maxD + 1) * gapY + 80);
+    const startX = (w - Math.max(0, count - 1) * gapX) / 2;
+    const pos = new Map();
+    items.forEach(function(it, i){
+      pos.set(it.n.id, {
+        x: startX + i * gapX,
+        y: 62 + it.d * gapY,
+        n: it.n,
+        parentId: it.p
+      });
+    });
+    return { pos: pos, w: w, h: h };
+  }
+
+  function render(root, o){
+    o = o || {};
+    const hi = o.highlight || new Set();
+    const visited = o.visited || new Set();
+
+    let pos = new Map(), w = 640, h = 280;
+    if (root){ const L = layout(root); pos = L.pos; w = L.w; h = L.h; }
+    S.vbT = { x: 0, y: 0, w: w, h: h };
+
+    /* nodes */
+    const alive = new Set();
+    pos.forEach(function(p, id){
+      alive.add(id);
+      let r = S.nodes.get(id);
+
+      if (!r){
+        const g = document.createElementNS(NS, 'g');
+        g.setAttribute('class','bst-node');
+
+        const c = document.createElementNS(NS, 'circle');
+        c.setAttribute('r', S.radius);
+
+        const t = document.createElementNS(NS, 'text');
+        t.setAttribute('class','node-label');
+        t.setAttribute('dy','0.35em');
+
+        g.appendChild(c); g.appendChild(t);
+
+        let b = null;
+        if (o.badge){
+          b = document.createElementNS(NS, 'text');
+          b.setAttribute('class','node-badge');
+          b.setAttribute('x','27');
+          b.setAttribute('y','-14');
+          g.appendChild(b);
+        }
+
+        g.style.opacity = 0;
+        nodesG.appendChild(g);
+        requestAnimationFrame(function(){ g.style.opacity = 1; });
+
+        const par = (p.parentId != null) ? S.nodes.get(p.parentId) : null;
+        r = {
+          el: g, circle: c, text: t, badge: b,
+          cx: par ? par.cx : p.x,
+          cy: par ? par.cy : p.y,
+          tx: p.x, ty: p.y
+        };
+        S.nodes.set(id, r);
+      }
+
+      r.tx = p.x; r.ty = p.y;
+      r.text.textContent = p.n.key;
+      r.el.classList.toggle('hi', hi.has(id));
+      r.el.classList.toggle('visited', visited.has(id));
+
+      if (o.paint) o.paint(r, p.n, hi.has(id), visited.has(id));
+
+      if (r.badge){
+        const bv = o.badge(p.n);
+        r.badge.textContent = (bv == null) ? '' : bv;
+      }
+    });
+
+    S.nodes.forEach(function(r, id){
+      if (!alive.has(id)){
+        r.el.style.opacity = 0;
+        setTimeout(function(){ r.el.remove(); }, 400);
+        S.nodes.delete(id);
+      }
+    });
+
+    /* edges */
+    const eAlive = new Set();
+    pos.forEach(function(p, id){
+      if (p.parentId == null) return;
+      eAlive.add(id);
+      const ex = S.edges.get(id);
+      if (ex){ ex.a = p.parentId; ex.b = id; }
+      else {
+        const line = document.createElementNS(NS, 'line');
+        line.setAttribute('class','bst-edge');
+        edgesG.appendChild(line);
+        S.edges.set(id, { el: line, a: p.parentId, b: id });
+      }
+    });
+    S.edges.forEach(function(e, id){
+      if (!eAlive.has(id)){ e.el.remove(); S.edges.delete(id); }
+    });
+
+    kick();
+  }
+
+  function clear(){
+    S.nodes.clear(); S.edges.clear();
+    nodesG.innerHTML = ''; edgesG.innerHTML = '';
+    S.vb = Object.assign({}, opts.viewBox);
+    S.vbT = Object.assign({}, opts.viewBox);
+    svg.setAttribute('viewBox', S.vb.x + ' ' + S.vb.y + ' ' + S.vb.w + ' ' + S.vb.h);
+  }
+
+  return { render: render, clear: clear };
+}
+
+/* =========================================================
+   PANEL 1 — BST + TRAVERSALS
+   ========================================================= */
+const bstEngine = createTreeEngine({
+  svg: document.getElementById('bstSvg'),
+  edgesG: document.getElementById('bstEdges'),
+  nodesG: document.getElementById('bstNodes'),
+  viewBox: { x: 0, y: 0, w: 640, h: 280 },
+  radius: 21
+});
+
+const bstOutEl  = document.getElementById('bstOut');
+const bstMsgEl  = document.getElementById('bstMsg');
+const bstInputEl= document.getElementById('bstInput');
+
+let bstRoot = null, bstIdSeq = 0;
+let bstTimer = null, bstSeq = [], bstPos = 0, bstVisited = new Set();
+
+function bstPaint(rec, n, hi, visited){
+  rec.circle.setAttribute('fill', visited ? '#33367F' : '#2A2D33');
+  rec.circle.setAttribute('stroke', visited ? '#C3C7FF' : '#8E9099');
+  rec.circle.setAttribute('stroke-width', 2);
+}
+
+function bstInsert(v){
+  const n = { id: ++bstIdSeq, key: v, left: null, right: null };
+  if (!bstRoot){ bstRoot = n; return; }
+  let cur = bstRoot;
+  while (true){
+    if (v === cur.key) return;
+    if (v < cur.key){
+      if (!cur.left){ cur.left = n; return; }
+      cur = cur.left;
+    } else {
+      if (!cur.right){ cur.right = n; return; }
+      cur = cur.right;
+    }
+  }
+}
+
+function buildBST(){
+  stopBST();
+  const vals = parseNums(bstInputEl.value);
+  bstRoot = null; bstIdSeq = 0;
+  vals.forEach(bstInsert);
+  bstVisited = new Set();
+  bstEngine.render(bstRoot, { paint: bstPaint });
+  bstOutEl.innerHTML = '<span class="placeholder">—</span>';
+  bstMsgEl.innerHTML = 'Built a BST from <b>' + vals.join(', ') + '</b>. Every node\'s left subtree ' +
+    'holds smaller keys and every right subtree larger keys. Pick a traversal to animate it.';
+}
+
+function inorder(n, out){ if (!n) return; inorder(n.left, out); out.push(n); inorder(n.right, out); }
+function preorder(n, out){ if (!n) return; out.push(n); preorder(n.left, out); preorder(n.right, out); }
+function postorder(n, out){ if (!n) return; postorder(n.left, out); postorder(n.right, out); out.push(n); }
+function levelorder(root, out){
+  const q = [];
+  if (root) q.push(root);
+  while (q.length){
+    const n = q.shift();
+    out.push(n);
+    if (n.left) q.push(n.left);
+    if (n.right) q.push(n.right);
+  }
+}
+
+const TRAV_RULES = {
+  inorder:   'Inorder = <b>Left → Root → Right</b>. On a BST this prints the keys in <b>sorted order</b>.',
+  preorder:  'Preorder = <b>Root → Left → Right</b>. The root comes first, then the whole left subtree, then the whole right subtree.',
+  postorder: 'Postorder = <b>Left → Right → Root</b>. Children are always finished before their parent.',
+  level:     'Level order = <b>BFS</b>. Visit level 0, then level 1, then level 2 … using a <b>queue</b>.'
+};
+
+function stopBST(){
+  if (bstTimer){ clearInterval(bstTimer); bstTimer = null; }
+}
+
+function runTraversal(kind){
+  stopBST();
+  if (!bstRoot){ bstMsgEl.innerHTML = 'Build a tree first.'; return; }
+
+  const seq = [];
+  if (kind === 'inorder') inorder(bstRoot, seq);
+  else if (kind === 'preorder') preorder(bstRoot, seq);
+  else if (kind === 'postorder') postorder(bstRoot, seq);
+  else levelorder(bstRoot, seq);
+
+  bstSeq = seq; bstPos = 0; bstVisited = new Set();
+  bstOutEl.innerHTML = '';
+  bstMsgEl.innerHTML = TRAV_RULES[kind] + ' Watch the amber ring hop from node to node.';
+
+  function step(){
+    if (bstPos >= bstSeq.length){
+      stopBST();
+      bstMsgEl.innerHTML = '✅ Done! Output: <b>' +
+        bstSeq.map(function(n){ return n.key; }).join(', ') + '</b>';
+      return;
+    }
+    const n = bstSeq[bstPos];
+    bstVisited.add(n.id);
+    bstEngine.render(bstRoot, {
+      paint: bstPaint,
+      highlight: new Set([n.id]),
+      visited: bstVisited
+    });
+    const tok = document.createElement('span');
+    tok.className = 'tok';
+    tok.textContent = n.key;
+    bstOutEl.appendChild(tok);
+    bstPos++;
+  }
+
+  step();
+  bstTimer = setInterval(step, 620);
+}
+
+document.getElementById('bstBuild').addEventListener('click', buildBST);
+document.getElementById('bstReset').addEventListener('click', function(){
+  stopBST();
+  bstRoot = null; bstIdSeq = 0; bstVisited = new Set();
+  bstEngine.clear();
+  bstOutEl.innerHTML = '<span class="placeholder">—</span>';
+  bstMsgEl.innerHTML = 'Build a tree, then pick a traversal to animate it node by node.';
+});
+document.querySelectorAll('[data-trav]').forEach(function(b){
+  b.addEventListener('click', function(){ runTraversal(b.dataset.trav); });
+});
+bstInputEl.addEventListener('keydown', function(e){ if (e.key === 'Enter') buildBST(); });
+
+buildBST();
+
+/* =========================================================
+   PANEL 2 — AVL
+   ========================================================= */
+let avlIdSeq = 0;
+
+function avlNode(key){ return { id: ++avlIdSeq, key: key, left: null, right: null, h: 1 }; }
+function avlClone(n){
+  if (!n) return null;
+  const c = { id: n.id, key: n.key, h: n.h, left: null, right: null };
+  c.left = avlClone(n.left);
+  c.right = avlClone(n.right);
+  return c;
+}
+function avlH(n){ return n ? n.h : 0; }
+function avlUpd(n){ n.h = 1 + Math.max(avlH(n.left), avlH(n.right)); }
+function avlBF(n){ return n ? (avlH(n.left) - avlH(n.right)) : 0; }
+function fmtBF(bf){ return (bf > 0 ? '+' : '') + bf; }
+
+function rotRight(y){
+  const x = y.left, T2 = x.right;
+  x.right = y; y.left = T2;
+  avlUpd(y); avlUpd(x);
+  return x;
+}
+function rotLeft(x){
+  const y = x.right, T2 = y.left;
+  y.left = x; x.right = T2;
+  avlUpd(x); avlUpd(y);
+  return y;
+}
+
+function avlInsertOne(ref, key, steps){
+  if (!ref.root){
+    ref.root = avlNode(key);
+    steps.push({
+      tree: avlClone(ref.root), hi: [ref.root.id],
+      msg: 'The tree is empty → <b>' + key + '</b> becomes the root.'
+    });
+    return;
+  }
+
+  const path = [];
+  let cur = ref.root;
+  while (cur){
+    if (key === cur.key){
+      steps.push({
+        tree: avlClone(ref.root), hi: [cur.id],
+        msg: '<b>' + key + '</b> is already in the tree — skipped (no duplicates).'
+      });
+      return;
+    }
+    path.push(cur);
+    cur = (key < cur.key) ? cur.left : cur.right;
+  }
+
+  const parent = path[path.length - 1];
+  const node = avlNode(key);
+  if (key < parent.key) parent.left = node;
+  else parent.right = node;
+
+  steps.push({
+    tree: avlClone(ref.root), hi: [node.id],
+    msg: 'Insert <b>' + key + '</b> as the <b>' + (key < parent.key ? 'left' : 'right') +
+         '</b> child of <b>' + parent.key + '</b> — ordinary BST insertion, the new node is a leaf.'
+  });
+
+  for (let i = path.length - 1; i >= 0; i--){
+    const anc = path[i];
+    avlUpd(anc);
+    const bf = avlBF(anc);
+
+    if (Math.abs(bf) <= 1){
+      steps.push({
+        tree: avlClone(ref.root), hi: [anc.id],
+        msg: 'Node <b>' + anc.key + '</b>: height ' + anc.h + ', balance factor ' + fmtBF(bf) +
+             ' → inside −1…+1, keep walking up.'
+      });
+      continue;
+    }
+
+    steps.push({
+      tree: avlClone(ref.root), hi: [anc.id],
+      msg: '⚠ Node <b>' + anc.key + '</b> has balance factor ' + fmtBF(bf) +
+           ' — the AVL rule is broken here, a rotation is required.'
+    });
+
+    const zKey = anc.key;
+    let newSub, desc;
+
+    if (bf > 1){
+      const lKey = anc.left.key;
+      if (avlBF(anc.left) >= 0){
+        newSub = rotRight(anc);
+        desc = '<b>LL (Left-Left)</b> case: the new node went into the <em>left</em> subtree of the ' +
+               '<em>left</em> child <b>' + lKey + '</b>. One <b>right rotation</b> at <b>' + zKey + '</b> fixes it.';
+      } else {
+        const gKey = anc.left.right.key;
+        anc.left = rotLeft(anc.left);
+        newSub = rotRight(anc);
+        desc = '<b>LR (Left-Right)</b> case: the new node sits in the <em>right</em> subtree of the ' +
+               '<em>left</em> child <b>' + lKey + '</b>. First <b>left rotate</b> at ' + lKey + ' (promoting ' +
+               gKey + '), then <b>right rotate</b> at ' + zKey + '.';
+      }
+    } else {
+      const rKey = anc.right.key;
+      if (avlBF(anc.right) <= 0){
+        newSub = rotLeft(anc);
+        desc = '<b>RR (Right-Right)</b> case: the new node went into the <em>right</em> subtree of the ' +
+               '<em>right</em> child <b>' + rKey + '</b>. One <b>left rotation</b> at <b>' + zKey + '</b> fixes it.';
+      } else {
+        const gKey = anc.right.left.key;
+        anc.right = rotRight(anc.right);
+        newSub = rotLeft(anc);
+        desc = '<b>RL (Right-Left)</b> case: the new node sits in the <em>left</em> subtree of the ' +
+               '<em>right</em> child <b>' + rKey + '</b>. First <b>right rotate</b> at ' + rKey + ' (promoting ' +
+               gKey + '), then <b>left rotate</b> at ' + zKey + '.';
+      }
+    }
+
+    const pi = i - 1;
+    if (pi < 0) ref.root = newSub;
+    else {
+      const par = path[pi];
+      if (par.left === anc) par.left = newSub;
+      else par.right = newSub;
+    }
+
+    steps.push({
+      tree: avlClone(ref.root), hi: [newSub.id],
+      msg: desc + ' The subtree is balanced again — and because the rotation restores the original ' +
+           'height, no ancestor above needs touching. Insertion finished.'
+    });
+    return;
+  }
+
+  steps.push({
+    tree: avlClone(ref.root), hi: [],
+    msg: 'Insertion of <b>' + key + '</b> complete — every balance factor is still within −1…+1.'
+  });
+}
+
+function avlStepsFor(values){
+  avlIdSeq = 0;
+  const ref = { root: null };
+  const steps = [];
+  steps.push({
+    tree: null, hi: [],
+    msg: 'Ready! We will insert <b>' + values.join(', ') + '</b>. Each insertion is a normal BST ' +
+         'insertion followed by a walk back up the path: update heights, check the balance factor, ' +
+         'and rotate at the first node where |BF| &gt; 1.'
+  });
+  values.forEach(function(v){ avlInsertOne(ref, v, steps); });
+  steps.push({
+    tree: avlClone(ref.root), hi: [],
+    msg: '✅ Finished. Every node\'s balance factor is −1, 0 or +1, so this is a valid AVL tree — ' +
+         'a BST whose height is guaranteed to stay O(log n).'
+  });
+  return steps;
+}
+
+const avlEngine = createTreeEngine({
+  svg: document.getElementById('avlSvg'),
+  edgesG: document.getElementById('avlEdges'),
+  nodesG: document.getElementById('avlNodes'),
+  viewBox: { x: 0, y: 0, w: 640, h: 300 },
+  radius: 21
+});
+
+function avlPaint(rec, n){
+  const bf = avlBF(n);
+  const bad = Math.abs(bf) > 1;
+  rec.circle.setAttribute('fill', bad ? '#5C1114' : '#103833');
+  rec.circle.setAttribute('stroke', bad ? '#FFB4AB' : '#6FF7E4');
+  rec.circle.setAttribute('stroke-width', bad ? 3 : 2);
+}
+
+const avlInput   = document.getElementById('avlInput');
+const avlLog     = document.getElementById('avlLog');
+const avlCounter = document.getElementById('avlCounter');
+const avlPlayBtn = document.getElementById('avlPlay');
+const avlSpeed   = document.getElementById('avlSpeed');
+
+let avlSteps = [], avlIndex = 0, avlTimer = null;
+
+function showAVLStep(i){
+  if (!avlSteps.length) return;
+  avlIndex = Math.max(0, Math.min(i, avlSteps.length - 1));
+  const s = avlSteps[avlIndex];
+
+  avlEngine.render(s.tree, {
+    paint: avlPaint,
+    highlight: new Set(s.hi || []),
+    badge: function(n){ return fmtBF(avlBF(n)); }
+  });
+
+  avlCounter.textContent = (avlIndex + 1) + ' / ' + avlSteps.length;
+
+  Array.prototype.forEach.call(avlLog.children, function(li, k){
+    li.classList.toggle('current', k === avlIndex);
+    li.classList.toggle('past', k < avlIndex);
+  });
+  const cur = avlLog.children[avlIndex];
+  if (cur) avlLog.scrollTop = cur.offsetTop - avlLog.clientHeight / 2 + cur.offsetHeight / 2;
+}
+
+function buildAVLLog(){
+  avlLog.innerHTML = '';
+  avlSteps.forEach(function(s, i){
+    const li = document.createElement('li');
+    li.className = 'log-item';
+    li.innerHTML = '<span class="num">' + (i + 1) + '</span><span class="txt">' + s.msg + '</span>';
+    li.addEventListener('click', function(){ avlPause(); showAVLStep(i); });
+    avlLog.appendChild(li);
+  });
+}
+
+function avlPause(){
+  if (avlTimer){ clearInterval(avlTimer); avlTimer = null; }
+  avlPlayBtn.textContent = 'Play';
+}
+
+function avlPlay(){
+  if (avlTimer){ avlPause(); return; }
+  if (!avlSteps.length) return;
+  if (avlIndex >= avlSteps.length - 1) showAVLStep(0);
+  avlPlayBtn.textContent = 'Pause';
+  avlTimer = setInterval(function(){
+    if (avlIndex >= avlSteps.length - 1){ avlPause(); return; }
+    showAVLStep(avlIndex + 1);
+  }, Number(avlSpeed.value));
+}
+
+function buildAVL(){
+  avlPause();
+  avlEngine.clear();
+
+  const values = parseNums(avlInput.value);
+  if (!values.length){
+    avlLog.innerHTML = '<li class="log-item current">Please enter some numbers first.</li>';
+    return;
+  }
+  avlSteps = avlStepsFor(values);
+  buildAVLLog();
+  showAVLStep(0);
+}
+
+document.getElementById('avlBuild').addEventListener('click', buildAVL);
+document.getElementById('avlReset').addEventListener('click', function(){
+  avlPause();
+  avlSteps = []; avlIndex = 0;
+  avlEngine.clear();
+  avlLog.innerHTML = '';
+  avlCounter.textContent = '0 / 0';
+});
+document.getElementById('avlPrev').addEventListener('click', function(){ avlPause(); showAVLStep(avlIndex - 1); });
+document.getElementById('avlNext').addEventListener('click', function(){ avlPause(); showAVLStep(avlIndex + 1); });
+avlPlayBtn.addEventListener('click', avlPlay);
+avlSpeed.addEventListener('input', function(){ if (avlTimer){ avlPause(); avlPlay(); } });
+avlInput.addEventListener('keydown', function(e){ if (e.key === 'Enter') buildAVL(); });
+
+buildAVL();
+
+/* =========================================================
+   PANEL 3 — RED BLACK
+   ========================================================= */
+let rbUid = 0;
+
+function rbNode(key){
+  return { id: ++rbUid, key: key, color: 'red', left: null, right: null, parent: null };
+}
+function cloneRB(n){
+  if (!n) return null;
+  const c = { id: n.id, key: n.key, color: n.color, left: null, right: null, parent: null };
+  c.left  = cloneRB(n.left);  if (c.left)  c.left.parent  = c;
+  c.right = cloneRB(n.right); if (c.right) c.right.parent = c;
+  return c;
+}
+function rbFind(n, key){
+  while (n) { if (key === n.key) return n; n = key < n.key ? n.left : n.right; }
+  return null;
+}
+
+function rbRotateLeft(S, x){
+  const y = x.right;
+  x.right = y.left;
+  if (y.left) y.left.parent = x;
+  y.parent = x.parent;
+  if (!x.parent) S.root = y;
+  else if (x === x.parent.left) x.parent.left = y;
+  else x.parent.right = y;
+  y.left = x;
+  x.parent = y;
+}
+
+function rbRotateRight(S, x){
+  const y = x.left;
+  x.left = y.right;
+  if (y.right) y.right.parent = x;
+  y.parent = x.parent;
+  if (!x.parent) S.root = y;
+  else if (x === x.parent.right) x.parent.right = y;
+  else x.parent.left = y;
+  y.right = x;
+  x.parent = y;
+}
+
+function rbFixup(S, z, steps){
+  while (z.parent && z.parent.color === 'red'){
+    let p = z.parent, g = p.parent;
+    if (!g) break;
+    const pLeft = (p === g.left);
+    const u = pLeft ? g.right : g.left;
+
+    if (u && u.color === 'red'){
+      p.color = 'black'; u.color = 'black'; g.color = 'red';
+      steps.push({
+        tree: cloneRB(S.root), hi: [p.id, u.id, g.id],
+        msg: 'Uncle <b>' + u.key + '</b> is <b>red</b> → just <b>recolour</b>: parent <b>' + p.key +
+             '</b> and uncle <b>' + u.key + '</b> turn black, grandparent <b>' + g.key +
+             '</b> turns red. Continue checking from <b>' + g.key + '</b>.'
+      });
+      z = g;
+    } else {
+      if (pLeft ? (z === p.right) : (z === p.left)){
+        if (pLeft){
+          rbRotateLeft(S, p);
+          steps.push({
+            tree: cloneRB(S.root), hi: [z.id, p.id],
+            msg: 'Uncle is <b>black</b> and <b>' + z.key + '</b> is a <em>right</em> child of ' + p.key +
+                 ' — a "zig-zag". <b>Rotate left</b> at ' + p.key + ' to make the path straight.'
+          });
+        } else {
+          rbRotateRight(S, p);
+          steps.push({
+            tree: cloneRB(S.root), hi: [z.id, p.id],
+            msg: 'Uncle is <b>black</b> and <b>' + z.key + '</b> is a <em>left</em> child of ' + p.key +
+                 ' — a "zig-zag". <b>Rotate right</b> at ' + p.key + ' to make the path straight.'
+          });
+        }
+        z = p; p = z.parent; g = p.parent;
+      }
+      p.color = 'black'; g.color = 'red';
+      if (pLeft){
+        rbRotateRight(S, g);
+        steps.push({
+          tree: cloneRB(S.root), hi: [p.id, g.id],
+          msg: 'Straight path → recolour <b>' + p.key + '</b> black and <b>' + g.key +
+               '</b> red, then <b>rotate right</b> at ' + g.key + '. This subtree is now valid.'
+        });
+      } else {
+        rbRotateLeft(S, g);
+        steps.push({
+          tree: cloneRB(S.root), hi: [p.id, g.id],
+          msg: 'Straight path → recolour <b>' + p.key + '</b> black and <b>' + g.key +
+               '</b> red, then <b>rotate left</b> at ' + g.key + '. This subtree is now valid.'
+        });
+      }
+      break;
+    }
+  }
+
+  if (S.root && S.root.color !== 'black'){
+    S.root.color = 'black';
+    steps.push({
+      tree: cloneRB(S.root), hi: [S.root.id],
+      msg: 'The root must always be black → recolour <b>' + S.root.key + '</b>.'
+    });
+  }
+}
+
+function rbInsert(S, key, steps){
+  if (rbFind(S.root, key)){
+    steps.push({
+      tree: cloneRB(S.root), hi: [],
+      msg: '<b>' + key + '</b> is already in the tree — duplicates are skipped.'
+    });
+    return;
+  }
+  const z = rbNode(key);
+
+  if (!S.root){
+    z.color = 'black'; S.root = z;
+    steps.push({
+      tree: cloneRB(S.root), hi: [z.id],
+      msg: 'The tree is empty → <b>' + key + '</b> becomes the root, and the root is always <b>black</b>.'
+    });
+    return;
+  }
+
+  let cur = S.root, p = null;
+  while (cur){ p = cur; cur = (key < cur.key) ? cur.left : cur.right; }
+  z.parent = p;
+  if (key < p.key) p.left = z; else p.right = z;
+
+  steps.push({
+    tree: cloneRB(S.root), hi: [z.id],
+    msg: 'Insert <b>' + key + '</b> as a <b>red</b> ' + (key < p.key ? 'left' : 'right') +
+         ' child of <b>' + p.key + '</b>. New nodes are always red — inserting red never breaks black-height.'
+  });
+
+  rbFixup(S, z, steps);
+}
+
+function buildRBSteps(values){
+  rbUid = 0;
+  const S = { root: null };
+  const steps = [];
+  steps.push({
+    tree: null, hi: [],
+    msg: 'Ready! We will insert: <b>' + values.join(', ') + '</b>. Every new node starts red, then we ' +
+         'repair any red-red violation with recolouring and rotations.'
+  });
+  values.forEach(function(v){ rbInsert(S, v, steps); });
+  steps.push({
+    tree: cloneRB(S.root), hi: [],
+    msg: '✅ Finished. Every root→leaf path has the same number of black nodes, no red node has a red ' +
+         'child, the root is black — a valid red–black tree with height O(log n).'
+  });
+  return steps;
+}
+
+const rbtSvg    = document.getElementById('rbtSvg');
+const gRbtEdges = document.getElementById('rbtEdges');
+const gRbtNodes = document.getElementById('rbtNodes');
+
+const rbtAnim = {
+  nodes: new Map(), edges: new Map(),
+  vb:  { x: 0, y: 0, w: 660, h: 320 },
+  vbT: { x: 0, y: 0, w: 660, h: 320 },
+  running: false
+};
+
+function layoutTree(root){
+  const items = [];
+  (function walk(n, d){
+    if (!n) return;
+    walk(n.left, d + 1);
+    items.push({ n: n, d: d });
+    walk(n.right, d + 1);
+  })(root, 0);
+
+  const count = items.length;
+  const maxDepth = items.reduce(function(m, i){ return Math.max(m, i.d); }, 0);
+  const w = Math.max(660, count * 74 + 140);
+  const h = Math.max(320, (maxDepth + 1) * 88 + 92);
+  const startX = (w - Math.max(0, count - 1) * 74) / 2;
+
+  const pos = new Map();
+  items.forEach(function(it, i){
+    pos.set(it.n.id, {
+      x: startX + i * 74,
+      y: 72 + it.d * 88,
+      key: it.n.key,
+      color: it.n.color,
+      parentId: it.n.parent ? it.n.parent.id : null
+    });
+  });
+  return { pos: pos, w: w, h: h };
+}
+
+function tick(){
+  let moving = false;
+
+  rbtAnim.nodes.forEach(function(rec){
+    const dx = rec.tx - rec.cx, dy = rec.ty - rec.cy;
+    if (Math.abs(dx) > 0.4 || Math.abs(dy) > 0.4){
+      rec.cx += dx * 0.22; rec.cy += dy * 0.22; moving = true;
+    } else { rec.cx = rec.tx; rec.cy = rec.ty; }
+    rec.el.setAttribute('transform','translate(' + rec.cx.toFixed(2) + ' ' + rec.cy.toFixed(2) + ')');
+  });
+
+  rbtAnim.edges.forEach(function(e){
+    const a = rbtAnim.nodes.get(e.a), b = rbtAnim.nodes.get(e.b);
+    if (!a || !b) return;
+    e.el.setAttribute('x1', a.cx.toFixed(2));
+    e.el.setAttribute('y1', a.cy.toFixed(2));
+    e.el.setAttribute('x2', b.cx.toFixed(2));
+    e.el.setAttribute('y2', b.cy.toFixed(2));
+  });
+
+  const v = rbtAnim.vb, t = rbtAnim.vbT;
+  let vMoving = false;
+  ['x','y','w','h'].forEach(function(k){
+    const d = t[k] - v[k];
+    if (Math.abs(d) > 0.4){ v[k] += d * 0.2; vMoving = true; }
+    else v[k] = t[k];
+  });
+  rbtSvg.setAttribute('viewBox',
+    v.x.toFixed(1) + ' ' + v.y.toFixed(1) + ' ' + v.w.toFixed(1) + ' ' + v.h.toFixed(1));
+
+  if (moving || vMoving) requestAnimationFrame(tick);
+  else rbtAnim.running = false;
+}
+
+function startAnim(){
+  if (!rbtAnim.running){ rbtAnim.running = true; requestAnimationFrame(tick); }
+}
+
+function renderRBT(snapshot, highlight){
+  const L = layoutTree(snapshot);
+  const pos = L.pos;
+  rbtAnim.vbT = { x: 0, y: 0, w: L.w, h: L.h };
+  const hi = new Set(highlight || []);
+
+  const alive = new Set();
+  pos.forEach(function(p, id){
+    alive.add(id);
+    let rec = rbtAnim.nodes.get(id);
+
+    if (!rec){
+      const g = document.createElementNS(NS, 'g');
+      g.setAttribute('class','rbt-node');
+
+      const c = document.createElementNS(NS, 'circle');
+      c.setAttribute('r', 21);
+
+      const t = document.createElementNS(NS, 'text');
+      t.setAttribute('class','node-label');
+      t.setAttribute('dy','0.35em');
+
+      g.appendChild(c); g.appendChild(t);
+      g.style.opacity = 0;
+      gRbtNodes.appendChild(g);
+      requestAnimationFrame(function(){ g.style.opacity = 1; });
+
+      const par = (p.parentId != null) ? rbtAnim.nodes.get(p.parentId) : null;
+      rec = {
+        el: g, circle: c, text: t,
+        cx: par ? par.cx : p.x,
+        cy: par ? par.cy : p.y,
+        tx: p.x, ty: p.y
+      };
+      rbtAnim.nodes.set(id, rec);
+    }
+
+    rec.tx = p.x; rec.ty = p.y;
+    rec.text.textContent = p.key;
+    rec.circle.setAttribute('fill', p.color === 'red' ? 'url(#redGrad)' : 'url(#blackGrad)');
+    rec.circle.setAttribute('stroke', p.color === 'red' ? '#FFB4AB' : '#8E9099');
+    rec.circle.setAttribute('stroke-width', 2);
+    rec.el.classList.toggle('hi', hi.has(id));
+  });
+
+  rbtAnim.nodes.forEach(function(rec, id){
+    if (!alive.has(id)){
+      rec.el.style.opacity = 0;
+      setTimeout(function(){ rec.el.remove(); }, 400);
+      rbtAnim.nodes.delete(id);
+    }
+  });
+
+  const edgeAlive = new Set();
+  pos.forEach(function(p, id){
+    if (p.parentId == null) return;
+    edgeAlive.add(id);
+    const existing = rbtAnim.edges.get(id);
+    if (existing){ existing.a = p.parentId; existing.b = id; }
+    else {
+      const line = document.createElementNS(NS, 'line');
+      line.setAttribute('class','rbt-edge');
+      gRbtEdges.appendChild(line);
+      rbtAnim.edges.set(id, { el: line, a: p.parentId, b: id });
+    }
+  });
+  rbtAnim.edges.forEach(function(e, id){
+    if (!edgeAlive.has(id)){ e.el.remove(); rbtAnim.edges.delete(id); }
+  });
+
+  startAnim();
+}
+
+const rbtInput   = document.getElementById('rbtInput');
+const rbtLog     = document.getElementById('rbtLog');
+const rbtCounter = document.getElementById('rbtCounter');
+const rbtPlayBtn = document.getElementById('rbtPlay');
+const rbtSpeed   = document.getElementById('rbtSpeed');
+
+let rbSteps = [], rbIndex = 0, rbTimer = null;
+
+function showRBStep(i){
+  if (!rbSteps.length) return;
+  rbIndex = Math.max(0, Math.min(i, rbSteps.length - 1));
+  const s = rbSteps[rbIndex];
+  renderRBT(s.tree, s.hi);
+  rbtCounter.textContent = (rbIndex + 1) + ' / ' + rbSteps.length;
+
+  Array.prototype.forEach.call(rbtLog.children, function(li, k){
+    li.classList.toggle('current', k === rbIndex);
+    li.classList.toggle('past', k < rbIndex);
+  });
+  const cur = rbtLog.children[rbIndex];
+  if (cur) rbtLog.scrollTop = cur.offsetTop - rbtLog.clientHeight / 2 + cur.offsetHeight / 2;
+}
+
+function buildRBLog(){
+  rbtLog.innerHTML = '';
+  rbSteps.forEach(function(s, i){
+    const li = document.createElement('li');
+    li.className = 'log-item';
+    li.innerHTML = '<span class="num">' + (i + 1) + '</span><span class="txt">' + s.msg + '</span>';
+    li.addEventListener('click', function(){ rbPause(); showRBStep(i); });
+    rbtLog.appendChild(li);
+  });
+}
+
+function rbPause(){
+  if (rbTimer){ clearInterval(rbTimer); rbTimer = null; }
+  rbtPlayBtn.textContent = 'Play';
+}
+
+function rbPlay(){
+  if (rbTimer){ rbPause(); return; }
+  if (!rbSteps.length) return;
+  if (rbIndex >= rbSteps.length - 1) showRBStep(0);
+  rbtPlayBtn.textContent = 'Pause';
+  rbTimer = setInterval(function(){
+    if (rbIndex >= rbSteps.length - 1){ rbPause(); return; }
+    showRBStep(rbIndex + 1);
+  }, Number(rbtSpeed.value));
+}
+
+function clearRBT(){
+  rbtAnim.nodes.clear();
+  rbtAnim.edges.clear();
+  gRbtNodes.innerHTML = '';
+  gRbtEdges.innerHTML = '';
+}
+
+function buildRBT(){
+  rbPause();
+  clearRBT();
+
+  const values = parseNums(rbtInput.value);
+  if (!values.length){
+    rbtLog.innerHTML = '<li class="log-item current">Please enter some numbers first.</li>';
+    return;
+  }
+
+  rbSteps = buildRBSteps(values);
+  buildRBLog();
+  showRBStep(0);
+}
+
+document.getElementById('rbtBuild').addEventListener('click', buildRBT);
+document.getElementById('rbtReset').addEventListener('click', function(){
+  rbPause(); rbSteps = []; rbIndex = 0;
+  clearRBT();
+  rbtAnim.vbT = { x: 0, y: 0, w: 660, h: 320 };
+  startAnim();
+  rbtLog.innerHTML = '';
+  rbtCounter.textContent = '0 / 0';
+});
+document.getElementById('rbtPrev').addEventListener('click', function(){ rbPause(); showRBStep(rbIndex - 1); });
+document.getElementById('rbtNext').addEventListener('click', function(){ rbPause(); showRBStep(rbIndex + 1); });
+rbtPlayBtn.addEventListener('click', rbPlay);
+rbtSpeed.addEventListener('input', function(){ if (rbTimer){ rbPause(); rbPlay(); } });
+rbtInput.addEventListener('keydown', function(e){ if (e.key === 'Enter') buildRBT(); });
+
+buildRBT();
+
+/* =========================================================
+   PANEL 4 — PRIM
+   ========================================================= */
+const P_NODES = {
+  A: { x: 110, y: 80  },
+  B: { x: 320, y: 60  },
+  C: { x: 545, y: 100 },
+  D: { x: 180, y: 255 },
+  E: { x: 380, y: 255 },
+  F: { x: 585, y: 245 },
+  G: { x: 340, y: 405 }
+};
+
+const P_EDGES = [
+  ['A','B',7],  ['A','D',5],  ['B','C',8],  ['B','D',9],
+  ['B','E',7],  ['C','E',5],  ['C','F',6],  ['D','E',15],
+  ['D','G',6],  ['E','F',8],  ['E','G',9],  ['F','G',11]
+];
+
+const gPrimEdges = document.getElementById('pEdges');
+const gPrimNodes = document.getElementById('pNodes');
+const primMsgEl  = document.getElementById('primMsg');
+const primCounter= document.getElementById('primCounter');
+const primPlayBtn= document.getElementById('primPlay');
+const primSpeed  = document.getElementById('primSpeed');
+const mstListEl  = document.getElementById('mstList');
+const primEdgeCountEl = document.getElementById('primEdgeCount');
+const primCostEl = document.getElementById('primCost');
+
+const pEdgeEls = [];
+const pNodeEls = {};
+
+let primStart = 'A';
+let primSteps = [], primIndex = 0, primTimer = null;
+
+function buildPrimGraph(){
+  gPrimEdges.innerHTML = '';
+  gPrimNodes.innerHTML = '';
+  pEdgeEls.length = 0;
+
+  P_EDGES.forEach(function(e){
+    const u = e[0], v = e[1], w = e[2];
+    const a = P_NODES[u], b = P_NODES[v];
+
+    const line = document.createElementNS(NS, 'line');
+    line.setAttribute('x1', a.x); line.setAttribute('y1', a.y);
+    line.setAttribute('x2', b.x); line.setAttribute('y2', b.y);
+    line.setAttribute('class','pg-edge');
+    gPrimEdges.appendChild(line);
+
+    const lbl = document.createElementNS(NS, 'text');
+    lbl.setAttribute('x', (a.x + b.x) / 2);
+    lbl.setAttribute('y', (a.y + b.y) / 2);
+    lbl.setAttribute('class','pg-weight');
+    lbl.setAttribute('dy','0.35em');
+    lbl.textContent = w;
+    gPrimEdges.appendChild(lbl);
+
+    pEdgeEls.push({ line: line, lbl: lbl, u: u, v: v, w: w });
+  });
+
+  Object.keys(P_NODES).forEach(function(k){
+    const p = P_NODES[k];
+    const g = document.createElementNS(NS, 'g');
+    g.setAttribute('class','pg-node');
+    g.setAttribute('transform','translate(' + p.x + ' ' + p.y + ')');
+    g.style.cursor = 'pointer';
+
+    const c = document.createElementNS(NS, 'circle');
+    c.setAttribute('r', 24);
+
+    const t = document.createElementNS(NS, 'text');
+    t.setAttribute('dy','0.35em');
+    t.textContent = k;
+
+    g.appendChild(c); g.appendChild(t);
+    g.addEventListener('click', function(){ primStart = k; startPrim(); });
+    gPrimNodes.appendChild(g);
+    pNodeEls[k] = g;
+  });
+}
+
+function buildPrimSteps(start){
+  const V = Object.keys(P_NODES);
+  const inTree = new Set([start]);
+  const mst = [];
+  let cost = 0;
+  const steps = [];
+
+  steps.push({
+    inTree: new Set(inTree), mst: [], chosen: null, added: null, cost: 0,
+    msg: 'Start at vertex <b>' + start + '</b>. The growing tree contains only ' + start +
+         '; every other vertex is outside.'
+  });
+
+  while (inTree.size < V.length){
+    const crossing = [];
+    P_EDGES.forEach(function(e){
+      const a = inTree.has(e[0]), b = inTree.has(e[1]);
+      if (a !== b) crossing.push(e);
+    });
+    if (!crossing.length) break;
+    crossing.sort(function(x, y){ return x[2] - y[2]; });
+
+    const u = crossing[0][0], v = crossing[0][1], w = crossing[0][2];
+    const added = inTree.has(u) ? v : u;
+    const list = crossing.map(function(e){
+      return e[0] + '–' + e[1] + ' <b>' + e[2] + '</b>';
+    }).join(' · ');
+
+    inTree.add(added);
+    mst.push([u, v, w]);
+    cost += w;
+
+    steps.push({
+      inTree: new Set(inTree),
+      mst: mst.map(function(e){ return e.slice(); }),
+      chosen: [u, v, w],
+      added: added,
+      cost: cost,
+      msg: 'Crossing edges: ' + list + '.<br>Cheapest is <b>' + u + '–' + v + '</b> with weight <b>' +
+           w + '</b> → add it and absorb vertex <b>' + added + '</b> into the tree. Running total: <b>' +
+           cost + '</b>.'
+    });
+  }
+
+  steps.push({
+    inTree: new Set(inTree),
+    mst: mst.map(function(e){ return e.slice(); }),
+    chosen: null, added: null, cost: cost,
+    msg: '🎉 Finished! The minimum spanning tree has <b>' + mst.length + '</b> edges and total weight <b>' +
+         cost + '</b>.'
+  });
+
+  return steps;
+}
+
+function renderPrimStep(){
+  if (!primSteps.length) return;
+  const s = primSteps[primIndex];
+
+  pEdgeEls.forEach(function(e){
+    let inMst = false, chosen = false;
+    s.mst.forEach(function(m){
+      if ((m[0] === e.u && m[1] === e.v) || (m[0] === e.v && m[1] === e.u)) inMst = true;
+    });
+    if (s.chosen &&
+        ((s.chosen[0] === e.u && s.chosen[1] === e.v) ||
+         (s.chosen[0] === e.v && s.chosen[1] === e.u))) chosen = true;
+
+    e.line.setAttribute('class','pg-edge' + (inMst ? ' mst' : '') + (chosen ? ' chosen' : ''));
+    e.lbl.setAttribute('class','pg-weight' + (inMst ? ' mst' : '') + (chosen ? ' chosen' : ''));
+  });
+
+  Object.keys(pNodeEls).forEach(function(k){
+    const g = pNodeEls[k];
+    const inTree = s.inTree.has(k);
+    const isNew = s.added === k;
+    g.setAttribute('class','pg-node' + (inTree ? ' in-tree' : '') + (isNew ? ' new' : ''));
+  });
+
+  primMsgEl.innerHTML = s.msg;
+  primCounter.textContent = (primIndex + 1) + ' / ' + primSteps.length;
+  primEdgeCountEl.textContent = s.mst.length;
+  primCostEl.textContent = s.cost;
+
+  mstListEl.innerHTML = s.mst.map(function(e){
+    return '<li>' + e[0] + ' — ' + e[1] + ' : ' + e[2] + '</li>';
+  }).join('');
+}
+
+function primPause(){
+  if (primTimer){ clearInterval(primTimer); primTimer = null; }
+  primPlayBtn.textContent = 'Play';
+}
+
+function primPlay(){
+  if (primTimer){ primPause(); return; }
+  if (primIndex >= primSteps.length - 1){ primIndex = 0; renderPrimStep(); }
+  primPlayBtn.textContent = 'Pause';
+  primTimer = setInterval(function(){
+    if (primIndex >= primSteps.length - 1){ primPause(); return; }
+    primIndex++;
+    renderPrimStep();
+  }, Number(primSpeed.value));
+}
+
+function startPrim(){
+  primPause();
+  primSteps = buildPrimSteps(primStart);
+  primIndex = 0;
+  renderPrimStep();
+}
+
+document.getElementById('primPrev').addEventListener('click', function(){
+  primPause(); primIndex = Math.max(0, primIndex - 1); renderPrimStep();
+});
+document.getElementById('primNext').addEventListener('click', function(){
+  primPause(); primIndex = Math.min(primSteps.length - 1, primIndex + 1); renderPrimStep();
+});
+document.getElementById('primReset').addEventListener('click', function(){ primPause(); startPrim(); });
+primPlayBtn.addEventListener('click', primPlay);
+primSpeed.addEventListener('input', function(){ if (primTimer){ primPause(); primPlay(); } });
+
+buildPrimGraph();
+startPrim();
+</script>
+</body>
+</html>
